@@ -24,10 +24,19 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-	UPROPERTY(UP::EditAnywhere)
+	friend class APlatformSpawner;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector direction = FVector(1, 0, 0);
-	UPROPERTY(EditAnywhere)
-	float distance = 1000;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float distance = 10000;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float speed = 10;
+
+	FVector startpos;
+
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* StaticMeshComp;
 };
