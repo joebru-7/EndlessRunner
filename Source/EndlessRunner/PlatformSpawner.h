@@ -27,7 +27,9 @@ private:
 	class AMovingPlatform* platform;
 
 	UPROPERTY(EditAnywhere,meta=(ClampMin = 0.01f, ClampMax=10))
-	float spawndelay;
+	float spawndelay = 1;
 	float spawnCooldown = 0;
 
+	UPROPERTY(EditAnywhere)
+	float spawnRadius = 100;
 };

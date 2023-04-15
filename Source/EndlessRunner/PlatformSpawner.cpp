@@ -22,7 +22,6 @@ void APlatformSpawner::BeginPlay()
 // Called every frame
 void APlatformSpawner::Tick(float DeltaTime)
 {
-	constexpr float spawnRadius = 1000;
 	Super::Tick(DeltaTime);
 
 	
@@ -30,7 +29,7 @@ void APlatformSpawner::Tick(float DeltaTime)
 	for (spawnCooldown -= DeltaTime; spawnCooldown < 0; spawnCooldown += spawndelay)
 	{
 		auto spawned = GetWorld()->SpawnActor<AMovingPlatform>();
-		spawned->speed = FMath::FRandRange(0, 1000);
+		spawned->speed = 100 + FMath::FRandRange(0, 100);
 		spawned->direction = FVector(1, 0, 0);
 		spawned->SetActorLocation(GetActorLocation() + FVector(0, FMath::RandRange(-spawnRadius, spawnRadius), 0));
 	}

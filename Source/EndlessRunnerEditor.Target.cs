@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class EndlessRunnerEditorTarget : TargetRules
 {
-	public EndlessRunnerEditorTarget( TargetInfo Target) : base(Target)
+	public EndlessRunnerEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
