@@ -20,6 +20,7 @@ AMovingPlatform::AMovingPlatform()
 	//Using Constructor Helpers to set our Static Mesh Comp with a Sphere Shape.
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>CubeMeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/SM_Cube.SM_Cube'"));
 	StaticMeshComp->SetStaticMesh(CubeMeshAsset.Object);
+
 }
 
 // Called when the game starts or when spawned
