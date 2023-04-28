@@ -23,13 +23,20 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	AActor* SpawnPlatform(const FVector& position, float speed) const;
+
+
 private:
 	class AMovingPlatform* platform;
+	class AEndlessRunnerGameMode* gamemode;
 
 	UPROPERTY(EditAnywhere,meta=(ClampMin = 0.01f, ClampMax=10))
 	float spawndelay = 1;
 	float spawnCooldown = 0;
 
 	UPROPERTY(EditAnywhere)
-	float spawnRadius = 100;
+	float distanceBetweenLanes = 100;
+
+	UPROPERTY(EditAnywhere)
+	int numberOfLanes = 5;
 };

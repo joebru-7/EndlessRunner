@@ -37,9 +37,6 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	
-	MY_LOG("%d,%d", DeltaTime, DeltaTime);
-
 	FVector currentloctation = GetActorLocation();
 
 	if (FVector::Dist(currentloctation, startpos) > distance)

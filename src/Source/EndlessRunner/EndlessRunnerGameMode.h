@@ -13,6 +13,13 @@ class AEndlessRunnerGameMode : public AGameModeBase
 
 public:
 	AEndlessRunnerGameMode();
+
+	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere)
+	float currentSpeed;
+
+	virtual void RestartPlayer(AController* player) override;
 };
 
 

@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/GameModeBase.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -122,6 +123,11 @@ void AEndlessRunnerCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AEndlessRunnerCharacter::FellOutOfWorld(const UDamageType& dmgType)
+{
+	GetWorld()->GetAuthGameMode()->RestartPlayer(GetController());
 }
 
 
