@@ -23,17 +23,30 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-protected:
-	friend class APlatformSpawner;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FVector direction = FVector(1, 0, 0);
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float distance = 10000;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float speed = 10;
 
 	FVector startpos;
+
+public: 
+	void SetSpeed(float newSpeed) { speed = newSpeed;updateLifetime(); }
+	void SetDistance(float newDistance) { distance = newDistance; updateLifetime(); }
+	void SetDirection(FVector newDirection) { direction = newDirection; updateLifetime(); }
+	void Set(float newSpeed, float newDistance, FVector newDirection)
+	{
+		speed = newSpeed; distance = newDistance; direction = newDirection;
+		updateLifetime();
+	}
+private:
+	void updateLifetime();
 
 protected:
 

@@ -39,11 +39,19 @@ void AMovingPlatform::Tick(float DeltaTime)
 
 	FVector currentloctation = GetActorLocation();
 
-	if (FVector::Dist(currentloctation, startpos) > distance)
-		Destroy();
-
 	SetActorLocation(currentloctation + DeltaTime * speed * direction);
+}
 
+void AMovingPlatform::updateLifetime()
+{
+	FVector currentloctation = GetActorLocation();
 
+	float distanceTravveled = currentloctation.IsZero() ? 0 : FVector::Dist(GetActorLocation(), startpos);
+	float wayToGo = distance - distanceTravveled;
+	float travelTimeOfWayToGo = wayToGo / speed;
+
+	MY_LOG("%f,%f,%f", speed, wayToGo,travelTimeOfWayToGo);
+
+	SetLifeSpan(travelTimeOfWayToGo);
 }
 

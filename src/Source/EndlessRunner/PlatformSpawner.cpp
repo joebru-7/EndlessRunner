@@ -37,8 +37,7 @@ void APlatformSpawner::Tick(float DeltaTime)
 AActor* APlatformSpawner::SpawnPlatform(const FVector& position, float speed) const
 {
 	AMovingPlatform* spawned = GetWorld()->SpawnActor<AMovingPlatform>();
-	spawned->speed = speed;
-	spawned->direction = FVector(1, 0, 0);
+	spawned->Set(speed, 3000, FVector{ 1, 0, 0 });
 	spawned->SetActorLocation(position);
 	return (AActor*) spawned;
 }
