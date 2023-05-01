@@ -10,6 +10,11 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/GameModeBase.h"
+#include "Engine/EngineTypes.h"
+#include "Engine/DamageEvents.h"
+
+#include "EndlessRunnerGameMode.h"
+#include "MyUserWidget.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -128,8 +133,16 @@ void AEndlessRunnerCharacter::Look(const FInputActionValue& Value)
 void AEndlessRunnerCharacter::FellOutOfWorld(const UDamageType& dmgType)
 {
 	GetWorld()->GetAuthGameMode()->RestartPlayer(GetController());
+	TakeDamage(1, {}, nullptr, nullptr);
 }
 
+float AEndlessRunnerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	health -= DamageAmount;
 
+	//TODO make better
+	Cast<AEndlessRunnerGameMode>(GetWorld()->GetAuthGameMode())->HudWidget->health = (int)health;
 
-
+	return DamageAmount;
+}

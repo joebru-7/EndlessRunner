@@ -16,10 +16,18 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void BeginPlay() override;
+
 	UPROPERTY(EditAnywhere)
 	float currentSpeed;
 
+	UPROPERTY(VisibleAnywhere)
+	class UMyUserWidget* HudWidget;
+
 	virtual void RestartPlayer(AController* player) override;
+
+	ConstructorHelpers::FClassFinder<UMyUserWidget>* widget;
+
 };
 
 

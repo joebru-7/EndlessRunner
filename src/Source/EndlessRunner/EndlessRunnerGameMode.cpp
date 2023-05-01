@@ -5,10 +5,11 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlatformSpawner.h"
+#include "MyUserWidget.h"
 
 #define MY_LOG(format,...) UE_LOG(LogTemp, Warning, TEXT(format), __VA_ARGS__)
 
-AEndlessRunnerGameMode::AEndlessRunnerGameMode()
+AEndlessRunnerGameMode::AEndlessRunnerGameMode():currentSpeed(50)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	// set default pawn class to our Blueprinted character
@@ -18,7 +19,10 @@ AEndlessRunnerGameMode::AEndlessRunnerGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 
-	currentSpeed = 50;
+
+	static ConstructorHelpers::FClassFinder<UMyUserWidget> static_widget(TEXT("/Game/HUD"));
+	widget = &static_widget;
+
 }
 
 void AEndlessRunnerGameMode::Tick(float DeltaTime)
@@ -30,10 +34,22 @@ void AEndlessRunnerGameMode::Tick(float DeltaTime)
 	//MY_LOG("TEST");
 }
 
+void AEndlessRunnerGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	//create hud after instance is valid
+	if (!HudWidget || !HudWidget->IsValidLowLevel())
+	{
+		HudWidget = Cast<UMyUserWidget>(CreateWidget(GetGameInstance(), widget->Class));
+		HudWidget->AddToViewport();
+	}
+}
+
 void AEndlessRunnerGameMode::RestartPlayer(AController* player)
 {
 	Super::RestartPlayer(player);
-
+	
 	static APlatformSpawner* spawner = nullptr;
 	if (spawner == nullptr || !spawner->IsValidLowLevel())
 	{
