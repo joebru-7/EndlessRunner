@@ -67,8 +67,5 @@ public:
 	void FellOutOfWorld(const UDamageType& dmgType) override;
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
-	
-	UPROPERTY(VisibleAnywhere)
-	float health = 3;
 };
 

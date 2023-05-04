@@ -139,10 +139,9 @@ void AEndlessRunnerCharacter::FellOutOfWorld(const UDamageType& dmgType)
 float AEndlessRunnerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	health -= DamageAmount;
 
 	//TODO make better
-	Cast<AEndlessRunnerGameMode>(GetWorld()->GetAuthGameMode())->HudWidget->health = (int)health;
+	Cast<AEndlessRunnerGameMode>(GetWorld()->GetAuthGameMode())->updateHealth(-(int)DamageAmount);
 
 	return DamageAmount;
 }

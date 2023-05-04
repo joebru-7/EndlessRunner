@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "EndlessRunnerConfig.h"
 #include "EndlessRunnerGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -22,6 +23,7 @@ public:
 	float currentSpeed;
 
 	int score = 0;
+	int playerhealth = startingHealth;
 
 	UPROPERTY(VisibleAnywhere)
 	class UMyUserWidget* HudWidget;
@@ -29,6 +31,9 @@ public:
 	virtual void RestartPlayer(AController* player) override;
 
 	ConstructorHelpers::FClassFinder<UMyUserWidget>* widget;
+
+	//positive extr lives healing
+	void updateHealth(int amount);
 
 };
 

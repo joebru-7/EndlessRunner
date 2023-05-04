@@ -6,8 +6,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "PlatformSpawner.h"
 #include "MyUserWidget.h"
+#include <fstream>
+#include "EndlessRunnerConfig.h"
 
 #define MY_LOG(format,...) UE_LOG(LogTemp, Warning, TEXT(format), __VA_ARGS__)
+
+
 
 AEndlessRunnerGameMode::AEndlessRunnerGameMode():currentSpeed(50)
 {
@@ -31,7 +35,8 @@ void AEndlessRunnerGameMode::Tick(float DeltaTime)
 
 	currentSpeed += DeltaTime;
 
-	score += 1;
+	++score;
+	if(HudWidget)
 	HudWidget->score = score;
 
 
@@ -45,13 +50,64 @@ void AEndlessRunnerGameMode::BeginPlay()
 	//create hud after instance is valid
 	if (!HudWidget || !HudWidget->IsValidLowLevel())
 	{
-		static int health = 6;
 		HudWidget = Cast<UMyUserWidget>(CreateWidget(GetGameInstance(), widget->Class));
 		if (HudWidget)
 		{
 			HudWidget->AddToViewport();
-			HudWidget->health = health;
+			HudWidget->health = playerhealth;
 		}
+	}
+}
+
+void writeHighscore(int score)
+{
+
+	std::fstream highsoreFIle;
+	highsoreFIle.open("C:\\temp\\Highscore.txt");
+
+	//read higscore into array (no error checking)
+	TArray<int> scores{};
+	scores.Add(score);
+	if (highsoreFIle.is_open()) {
+		while (!highsoreFIle.eof())
+		{
+			int x;
+			highsoreFIle >> x;
+			scores.Add(x);
+		}
+	}
+	highsoreFIle.close();
+	if (scores.Num() < 5)
+	{
+		scores.AddDefaulted(5 - scores.Num());
+	}
+
+
+	// put in order
+	scores.Sort(std::greater<int>());
+
+	//write back to file
+	highsoreFIle.open("C:\\temp\\Highscore.txt", std::ios::out);
+	for (int i = 0; i < 5; i++)
+	{
+		highsoreFIle << scores[i] << '\n';
+	}
+	highsoreFIle << "                       \0"; // make sure file is long enugh to cover default text
+	highsoreFIle.close();
+}
+
+void AEndlessRunnerGameMode::updateHealth(int amount)
+{
+	playerhealth += amount;
+	HudWidget->health = playerhealth;
+
+	if (playerhealth == 0)
+	{
+		writeHighscore(score);
+		HudWidget->updatehiscoreDisplay();
+		playerhealth = HudWidget->health = 3;
+		score = HudWidget->score = 0;
+		currentSpeed = startSpeed;
 	}
 }
 

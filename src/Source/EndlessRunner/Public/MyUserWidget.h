@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "EndlessRunnerConfig.h"
 #include "MyUserWidget.generated.h"
 
 
@@ -19,13 +20,15 @@ public:
 
 	UMyUserWidget (const FObjectInitializer& ObjectInitializer) :UUserWidget( ObjectInitializer){}
 
-	UPROPERTY(BlueprintReadWrite)
-	int health = 3; //TODO make read
+	UPROPERTY(BlueprintReadOnly)
+	int health; // managed from gamemode
 
-	UPROPERTY(BlueprintReadWrite)
-	int score = 0;
+	UPROPERTY(BlueprintReadOnly)
+	int score; // managed from gamemode
 
-	UFUNCTION(BlueprintCallable)
+	UE_NODISCARD UFUNCTION(BlueprintCallable)
 	FString readHighscore();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void updatehiscoreDisplay();
 };
