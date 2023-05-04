@@ -50,7 +50,7 @@ void AMovingPlatform::updateLifetime()
 	float wayToGo = distance - distanceTravveled;
 	float travelTimeOfWayToGo = wayToGo / speed;
 
-	MY_LOG("%f,%f,%f", speed, wayToGo,travelTimeOfWayToGo);
+	//MY_LOG("%f,%f,%f", speed, wayToGo,travelTimeOfWayToGo);
 
 	SetLifeSpan(travelTimeOfWayToGo);
 }

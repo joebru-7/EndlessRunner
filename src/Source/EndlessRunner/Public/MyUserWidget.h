@@ -17,9 +17,15 @@ class ENDLESSRUNNER_API UMyUserWidget : public UUserWidget
 
 public:
 
+	UMyUserWidget (const FObjectInitializer& ObjectInitializer) :UUserWidget( ObjectInitializer){}
+
 	UPROPERTY(BlueprintReadWrite)
 	int health = 3; //TODO make read
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateHealthDisplay();
+	UPROPERTY(BlueprintReadWrite)
+	int score = 0;
+
+	UFUNCTION(BlueprintCallable)
+	FString readHighscore();
+
 };

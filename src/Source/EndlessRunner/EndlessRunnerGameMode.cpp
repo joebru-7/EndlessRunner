@@ -31,6 +31,10 @@ void AEndlessRunnerGameMode::Tick(float DeltaTime)
 
 	currentSpeed += DeltaTime;
 
+	score += 1;
+	HudWidget->score = score;
+
+
 	//MY_LOG("TEST");
 }
 
@@ -41,8 +45,13 @@ void AEndlessRunnerGameMode::BeginPlay()
 	//create hud after instance is valid
 	if (!HudWidget || !HudWidget->IsValidLowLevel())
 	{
+		static int health = 6;
 		HudWidget = Cast<UMyUserWidget>(CreateWidget(GetGameInstance(), widget->Class));
-		HudWidget->AddToViewport();
+		if (HudWidget)
+		{
+			HudWidget->AddToViewport();
+			HudWidget->health = health;
+		}
 	}
 }
 

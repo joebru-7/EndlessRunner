@@ -21,6 +21,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	float currentSpeed;
 
+	int score = 0;
+
 	UPROPERTY(VisibleAnywhere)
 	class UMyUserWidget* HudWidget;
 
