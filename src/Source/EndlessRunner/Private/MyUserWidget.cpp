@@ -10,8 +10,6 @@ FString UMyUserWidget::readHighscore()
 	std::fstream highsoreFIle;
 	highsoreFIle.open("C:\\temp\\Highscore.txt");
 
-	UE_LOG(LogTemp, Warning, TEXT("%i"), highsoreFIle.is_open())
-
 	char text[1024] = "no highscores yet";
 
 	highsoreFIle.read(text,1023);

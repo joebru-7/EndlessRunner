@@ -3,9 +3,6 @@
 #include "MovingPlatform.h"
 #include "Components/BoxComponent.h"
 
-
-#define MY_LOG(format,...) UE_LOG(LogTemp, Warning, TEXT(format), __VA_ARGS__)
-
 // Sets default values
 AMovingPlatform::AMovingPlatform()
 {
@@ -20,6 +17,10 @@ AMovingPlatform::AMovingPlatform()
 	//Using Constructor Helpers to set our Static Mesh Comp with a Sphere Shape.
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>CubeMeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/SM_Cube.SM_Cube'"));
 	StaticMeshComp->SetStaticMesh(CubeMeshAsset.Object);
+
+	StaticMeshComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	StaticMeshComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
+
 
 }
 
@@ -39,7 +40,7 @@ void AMovingPlatform::Tick(float DeltaTime)
 
 	FVector currentloctation = GetActorLocation();
 
-	SetActorLocation(currentloctation + DeltaTime * speed * direction);
+	SetActorLocation(currentloctation + DeltaTime * speed * direction,true);
 }
 
 void AMovingPlatform::updateLifetime()
@@ -49,8 +50,6 @@ void AMovingPlatform::updateLifetime()
 	float distanceTravveled = currentloctation.IsZero() ? 0 : FVector::Dist(GetActorLocation(), startpos);
 	float wayToGo = distance - distanceTravveled;
 	float travelTimeOfWayToGo = wayToGo / speed;
-
-	//MY_LOG("%f,%f,%f", speed, wayToGo,travelTimeOfWayToGo);
 
 	SetLifeSpan(travelTimeOfWayToGo);
 }

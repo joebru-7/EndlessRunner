@@ -9,11 +9,7 @@
 #include <fstream>
 #include "EndlessRunnerConfig.h"
 
-#define MY_LOG(format,...) UE_LOG(LogTemp, Warning, TEXT(format), __VA_ARGS__)
-
-
-
-AEndlessRunnerGameMode::AEndlessRunnerGameMode():currentSpeed(50)
+AEndlessRunnerGameMode::AEndlessRunnerGameMode():currentSpeed(50),obstacleSpeed(200)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	// set default pawn class to our Blueprinted character
@@ -34,13 +30,12 @@ void AEndlessRunnerGameMode::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	currentSpeed += DeltaTime;
+	obstacleSpeed += DeltaTime;
 
 	++score;
 	if(HudWidget)
 	HudWidget->score = score;
 
-
-	//MY_LOG("TEST");
 }
 
 void AEndlessRunnerGameMode::BeginPlay()
@@ -118,7 +113,15 @@ void AEndlessRunnerGameMode::RestartPlayer(AController* player)
 	static APlatformSpawner* spawner = nullptr;
 	if (spawner == nullptr || !spawner->IsValidLowLevel())
 	{
-		spawner = Cast<APlatformSpawner>(UGameplayStatics::GetActorOfClass(this, APlatformSpawner::StaticClass()));
+		TArray<AActor*> founds{};
+		UGameplayStatics::GetAllActorsOfClass(this, APlatformSpawner::StaticClass(), founds);
+		for (auto var : founds)
+		{
+			if (Cast<APlatformSpawner>(var) && !Cast<APlatformSpawner>(var)->isSpawningObstacles) {
+				spawner = Cast<APlatformSpawner>(var);
+				break;
+			}
+		}
 	}
 
 	FVector location = player->GetPawn()->GetActorLocation();

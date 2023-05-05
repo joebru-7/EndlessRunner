@@ -2,7 +2,9 @@
 
 #include "PlatformSpawner.h"
 #include "MovingPlatform.h"
+#include "Obstacle.h"
 #include "EndlessRunnerGameMode.h"
+
 
 // Sets default values
 APlatformSpawner::APlatformSpawner()
@@ -26,9 +28,9 @@ void APlatformSpawner::Tick(float DeltaTime)
 
 	for (spawnCooldown -= DeltaTime; spawnCooldown < 0; spawnCooldown += spawndelay)
 	{
-		float currentSpeed = (gamemode ? gamemode->currentSpeed : 100);
+		float currentSpeed = (!gamemode ? 100: isSpawningObstacles? gamemode->obstacleSpeed :gamemode->currentSpeed );
 		SpawnPlatform(
-			FVector(0, distanceBetweenLanes * (FMath::RandRange(0, numberOfLanes) - numberOfLanes / 2), 0),
+			FVector(0, distanceBetweenLanes * (FMath::RandRange(0, numberOfLanes) - numberOfLanes / 2), isSpawningObstacles ? 150 : 0),
 			currentSpeed + FMath::FRandRange(0.f, 10.f)
 		);
 	}
@@ -36,7 +38,7 @@ void APlatformSpawner::Tick(float DeltaTime)
 
 AActor* APlatformSpawner::SpawnPlatform(const FVector& position, float speed) const
 {
-	AMovingPlatform* spawned = GetWorld()->SpawnActor<AMovingPlatform>();
+	AMovingPlatform* spawned = (AMovingPlatform*) GetWorld()->SpawnActor(isSpawningObstacles?AObstacle::StaticClass() : AMovingPlatform::StaticClass());
 	spawned->Set(speed, 4100, FVector{ 1, 0, 0 });
 	spawned->SetActorLocation(position);
 	return (AActor*) spawned;

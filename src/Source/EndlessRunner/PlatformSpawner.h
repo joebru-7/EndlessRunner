@@ -39,4 +39,8 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	int numberOfLanes = 5;
+
+public:
+	UPROPERTY(EditAnywhere)
+	bool isSpawningObstacles;
 };

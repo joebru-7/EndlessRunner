@@ -22,6 +22,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float currentSpeed;
 
+	UPROPERTY(EditAnywhere)
+	float obstacleSpeed;
+
 	int score = 0;
 	int playerhealth = startingHealth;
 
