@@ -13,3 +13,5 @@ I didn't have any major bugs to fix that I found.
 
 A design choice I made last minute that I'm not happy with was to reuse my platform spawner to spawn obstacles. I shuld have made a obstacle spawner with a common baseclass with Platformspawner and also mad a baseclass for MovingPlatform and Obstacle.
 
+# Extra
+Made a simpe AI companion and exploding obstacles to comply with spec
