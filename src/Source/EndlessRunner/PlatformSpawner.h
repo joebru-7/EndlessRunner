@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Containers/Array.h"
 #include "PlatformSpawner.generated.h"
 
 UCLASS()
@@ -23,11 +24,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	AActor* SpawnPlatform(const FVector& position, float speed) const;
-
+	class AObstacle* SpawnPlatform(const FVector& position, float speed);
+	void PlatformExpiered(AObstacle* child);
+	void ExplodeRandomObstacle();
 
 private:
-	class AMovingPlatform* platform;
 	class AEndlessRunnerGameMode* gamemode;
 
 	UPROPERTY(EditAnywhere,meta=(ClampMin = 0.01f, ClampMax=10))
@@ -40,7 +41,5 @@ private:
 	UPROPERTY(EditAnywhere)
 	int numberOfLanes = 5;
 
-public:
-	UPROPERTY(EditAnywhere)
-	bool isSpawningObstacles;
+	TArray<class AObstacle*> obstacles;
 };

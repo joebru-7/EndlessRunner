@@ -2,6 +2,7 @@
 
 #pragma once
 
+/*
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "MovingPlatform.generated.h"
@@ -53,3 +54,4 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* StaticMeshComp;
 };
+*/

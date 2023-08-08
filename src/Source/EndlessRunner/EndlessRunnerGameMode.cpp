@@ -110,25 +110,9 @@ void AEndlessRunnerGameMode::RestartPlayer(AController* player)
 {
 	Super::RestartPlayer(player);
 	
-	static APlatformSpawner* spawner = nullptr;
-	if (spawner == nullptr || !spawner->IsValidLowLevel())
-	{
-		TArray<AActor*> founds{};
-		UGameplayStatics::GetAllActorsOfClass(this, APlatformSpawner::StaticClass(), founds);
-		for (auto var : founds)
-		{
-			if (Cast<APlatformSpawner>(var) && !Cast<APlatformSpawner>(var)->isSpawningObstacles) {
-				spawner = Cast<APlatformSpawner>(var);
-				break;
-			}
-		}
-	}
-
 	FVector location = player->GetPawn()->GetActorLocation();
 	location.Z = 200;
 	player->GetPawn()->SetActorLocation(location);
 	location.Z = 1;
 
-	AActor* spawned = spawner->SpawnPlatform(location,0);
-	spawned->SetLifeSpan(10);
 }
